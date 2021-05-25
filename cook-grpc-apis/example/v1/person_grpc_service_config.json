@@ -1,0 +1,23 @@
+{ 
+    "methodConfig": [
+        {
+            "name": [
+                {
+                    "service": "pub.wii.cook.grpc.person.v1.UserService",
+                    "method": "Get"
+                }
+            ],
+            "timeout": "60s",
+            "retryPolicy": {
+              "maxAttempts": 5,
+              "initialBackoff": "0.100s",
+              "maxBackoff": "60s",
+              "backoffMultiplier": 1.3,
+              "retryableStatusCodes": [
+                "DEADLINE_EXCEEDED",
+                "UNAVAILABLE"
+              ]
+            }
+        }
+    ]
+}

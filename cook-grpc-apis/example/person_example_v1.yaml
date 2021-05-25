@@ -1,0 +1,19 @@
+type: google.api.Service
+config_version: 3
+name: person-example.pub.wii
+title: Example Person API
+
+apis:
+- name: pub.wii.cook.grpc.person.v1.UserService
+
+documentation:
+  summary: A simple Google Example Library API.
+  overview: |-
+    # Introduction
+    This is a Google example service representing a simple digital library. It
+    manages a collection of shelf resources, and each shelf owns a collection of
+    book resources.
+backend:
+  rules:
+  - selector: pub.wii.cook.grpc.person.v1.UserService.Get
+    deadline: 10.0
