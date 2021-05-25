@@ -2,53 +2,225 @@ workspace(
     name = "cook_grpc_apis",
 )
 
+## Prepare / Common
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
-http_archive(
-    name = "build_stack_rules_proto",
-    urls = ["https://github.com/stackb/rules_proto/archive/b2913e6340bcbffb46793045ecac928dcf1b34a5.tar.gz"],
-    sha256 = "d456a22a6a8d577499440e8408fc64396486291b570963f7b157f775be11823e",
-    strip_prefix = "rules_proto-b2913e6340bcbffb46793045ecac928dcf1b34a5",
+## This is for stackb rules_proto
+# http_archive(
+#     name = "build_stack_rules_proto",
+#     urls = ["https://github.com/stackb/rules_proto/archive/b2913e6340bcbffb46793045ecac928dcf1b34a5.tar.gz"],
+#     sha256 = "d456a22a6a8d577499440e8408fc64396486291b570963f7b157f775be11823e",
+#     strip_prefix = "rules_proto-b2913e6340bcbffb46793045ecac928dcf1b34a5",
+# )
+
+load("//:repository_rules.bzl", "switched_rules_by_language")
+switched_rules_by_language(
+    name = "cook_grpc_apis_imports",
+    gapic = True,
+    grpc = True,
+    java = True,
 )
 
+# Protobuf depends on very old version of bazel_skylib (forward compatible with the new one).
+# Importing older version of bazel_skylib first (this is one of the things that protobuf_deps() call
+# below will do) breaks the grpc repositories, so importing the proper version explicitly before
+# everything else.
+http_archive(
+    name = "bazel_skylib",
+    urls = ["https://github.com/bazelbuild/bazel-skylib/releases/download/0.9.0/bazel_skylib-0.9.0.tar.gz"],
+)
+
+# Python rules should go early in the dependencies list, otherwise a wrong
+# version of the library will be selected as a transitive dependency of gRPC.
+http_archive(
+    name = "rules_python",
+    strip_prefix = "rules_python-0.1.0",
+    url = "https://github.com/bazelbuild/rules_python/archive/0.1.0.tar.gz",
+)
+
+http_archive(
+    name = "com_google_protobuf",
+    sha256 = "b10bf4e2d1a7586f54e64a5d9e7837e5188fc75ae69e36f215eb01def4f9721b",
+    strip_prefix = "protobuf-3.15.3",
+    urls = ["https://github.com/protocolbuffers/protobuf/archive/v3.15.3.tar.gz"],
+)
+
+load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
+protobuf_deps()
+
+http_archive(
+    name = "rules_proto",
+    sha256 = "602e7161d9195e50246177e7c55b2f39950a9cf7366f74ed5f22fd45750cd208",
+    strip_prefix = "rules_proto-97d8af4dc474595af3900dd85cb3a29ad28cc313",
+    urls = [
+        "https://mirror.bazel.build/github.com/bazelbuild/rules_proto/archive/97d8af4dc474595af3900dd85cb3a29ad28cc313.tar.gz",
+        "https://github.com/bazelbuild/rules_proto/archive/97d8af4dc474595af3900dd85cb3a29ad28cc313.tar.gz",
+    ],
+)
+
+load("@rules_proto//proto:repositories.bzl", "rules_proto_dependencies", "rules_proto_toolchains")
+rules_proto_dependencies()
+rules_proto_toolchains()
+
+# Note gapic-generator contains java-specific and common code, that is why it is imported in common
+# section
+http_archive(
+    name = "com_google_api_codegen",
+    strip_prefix = "gapic-generator-2.11.0",
+    urls = ["https://github.com/googleapis/gapic-generator/archive/v2.11.0.zip"],
+)
+
+##############################################################################
+# Java
+##############################################################################
+_gax_java_version = "1.63.3"
+
+http_archive(
+    name = "com_google_api_gax_java",
+    strip_prefix = "gax-java-%s" % _gax_java_version,
+    urls = ["https://github.com/googleapis/gax-java/archive/v%s.zip" % _gax_java_version],
+)
+
+load("@com_google_api_gax_java//:repository_rules.bzl", "com_google_api_gax_java_properties")
+
+com_google_api_gax_java_properties(
+    name = "com_google_api_gax_java_properties",
+    file = "@com_google_api_gax_java//:dependencies.properties",
+)
+
+load("@com_google_api_gax_java//:repositories.bzl", "com_google_api_gax_java_repositories")
+
+com_google_api_gax_java_repositories()
+
+load("@io_grpc_grpc_java//:repositories.bzl", "grpc_java_repositories")
+
+grpc_java_repositories()
+
+# Java microgenerator.
+# Must go AFTER java-gax, since both java gax and gapic-generator are written in java and may conflict.
+_gapic_generator_java_version = "1.0.7"
+
+http_archive(
+    name = "gapic_generator_java",
+    strip_prefix = "gapic-generator-java-%s" % _gapic_generator_java_version,
+    urls = ["https://github.com/googleapis/gapic-generator-java/archive/v%s.zip" % _gapic_generator_java_version],
+)
+
+load("@gapic_generator_java//:repository_rules.bzl", "gapic_generator_java_properties")
+
+gapic_generator_java_properties(
+    name = "gapic_generator_java_properties",
+    file = "@gapic_generator_java//:dependencies.properties",
+)
+
+load("@gapic_generator_java//:repositories.bzl", "gapic_generator_java_repositories")
+
+gapic_generator_java_repositories()
+
+# gapic-generator transitive
+# (goes AFTER java-gax, since both java gax and gapic-generator are written in java and may conflict)
+load("@com_google_api_codegen//:repository_rules.bzl", "com_google_api_codegen_properties")
+
+com_google_api_codegen_properties(
+    name = "com_google_api_codegen_properties",
+    file = "@com_google_api_codegen//:dependencies.properties",
+)
+
+load("@com_google_api_codegen//:repositories.bzl", "com_google_api_codegen_repositories")
+
+http_archive(
+    name = "com_google_protoc_java_resource_names_plugin",
+    strip_prefix = "protoc-java-resource-names-plugin-8d749cb5b7aa2734656e1ad36ceda92894f33153",
+    urls = ["https://github.com/googleapis/protoc-java-resource-names-plugin/archive/8d749cb5b7aa2734656e1ad36ceda92894f33153.zip"],
+)
+com_google_api_codegen_repositories()
+
+# protoc-java-resource-names-plugin (loaded in com_google_api_codegen_repositories())
+# (required to support resource names feature in gapic generator)
+load(
+    "@com_google_protoc_java_resource_names_plugin//:repositories.bzl",
+    "com_google_protoc_java_resource_names_plugin_repositories",
+)
+com_google_protoc_java_resource_names_plugin_repositories()
+
+
+##############################################################################
+# Python
+##############################################################################
+load("@com_google_api_codegen//rules_gapic/python:py_gapic_repositories.bzl", "py_gapic_repositories")
+py_gapic_repositories()
+
+http_archive(
+    name = "protoc_docs_plugin",
+    strip_prefix = "protoc-docs-plugin-2bdf14e394bbaa44b81286b1a19c5f229b51c667",
+    urls = ["https://github.com/googleapis/protoc-docs-plugin/archive/2bdf14e394bbaa44b81286b1a19c5f229b51c667.zip"],
+)
+
+load(
+    "@protoc_docs_plugin//:repositories.bzl",
+    "protoc_docs_plugin_register_toolchains",
+    "protoc_docs_plugin_repositories",
+)
+
+protoc_docs_plugin_repositories()
+protoc_docs_plugin_register_toolchains()
+load("@rules_python//python:pip.bzl", "pip_repositories")
+pip_repositories()
+
+http_archive(
+    name = "gapic_generator_python",
+    strip_prefix = "gapic-generator-python-0.46.3",
+    urls = ["https://github.com/googleapis/gapic-generator-python/archive/v0.46.3.zip"],
+)
+
+load(
+    "@gapic_generator_python//:repositories.bzl",
+    "gapic_generator_python",
+    "gapic_generator_register_toolchains",
+)
+gapic_generator_python()
+gapic_generator_register_toolchains()
+
+
+###### Texts below is for stack rules
 ## C++
 # load("@build_stack_rules_proto//cpp:deps.bzl", "cpp_proto_library")
 # cpp_proto_library()
 
 ## Java
-load("@build_stack_rules_proto//:deps.bzl", "io_grpc_grpc_java")
-io_grpc_grpc_java()
+# load("@build_stack_rules_proto//:deps.bzl", "io_grpc_grpc_java")
+# io_grpc_grpc_java()
 
-load("@io_grpc_grpc_java//:repositories.bzl", "grpc_java_repositories")
-grpc_java_repositories(omit_com_google_protobuf = True)
+# load("@io_grpc_grpc_java//:repositories.bzl", "grpc_java_repositories")
+# grpc_java_repositories(omit_com_google_protobuf = True)
 
-load("@build_stack_rules_proto//java:deps.bzl", "java_grpc_library")
-java_grpc_library()
+# load("@build_stack_rules_proto//java:deps.bzl", "java_grpc_library")
+# java_grpc_library()
 
 ## Python
-load("@build_stack_rules_proto//python:deps.bzl", "python_proto_library")
-load("@build_stack_rules_proto//python:deps.bzl", "python_grpc_library")
-python_proto_library()
-python_grpc_library()
+# load("@build_stack_rules_proto//python:deps.bzl", "python_proto_library")
+# load("@build_stack_rules_proto//python:deps.bzl", "python_grpc_library")
+# python_proto_library()
+# python_grpc_library()
 
-load("@com_github_grpc_grpc//bazel:grpc_deps.bzl", "grpc_deps")
-grpc_deps()
+# load("@com_github_grpc_grpc//bazel:grpc_deps.bzl", "grpc_deps")
+# grpc_deps()
 
-load("@io_bazel_rules_python//python:pip.bzl", "pip_import", "pip_repositories")
-pip_repositories()
+# load("@io_bazel_rules_python//python:pip.bzl", "pip_import", "pip_repositories")
+# pip_repositories()
 
-pip_import(
-    name = "protobuf_py_deps",
-    requirements = "@build_stack_rules_proto//python/requirements:protobuf.txt",
-)
+# pip_import(
+#     name = "protobuf_py_deps",
+#     requirements = "@build_stack_rules_proto//python/requirements:protobuf.txt",
+# )
 
-load("@protobuf_py_deps//:requirements.bzl", protobuf_pip_install = "pip_install")
-protobuf_pip_install()
+# load("@protobuf_py_deps//:requirements.bzl", protobuf_pip_install = "pip_install")
+# protobuf_pip_install()
 
-pip_import(
-    name = "grpc_py_deps",
-    requirements = "@build_stack_rules_proto//python:requirements.txt",
-)
+# pip_import(
+#     name = "grpc_py_deps",
+#     requirements = "@build_stack_rules_proto//python:requirements.txt",
+# )
 
-load("@grpc_py_deps//:requirements.bzl", grpc_pip_install = "pip_install")
-grpc_pip_install()
+# load("@grpc_py_deps//:requirements.bzl", grpc_pip_install = "pip_install")
+# grpc_pip_install()
