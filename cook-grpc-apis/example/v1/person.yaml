@@ -1,6 +1,6 @@
 type: google.api.Service
 config_version: 3
-name: person-example.pub.wii
+name: person.grpc.cook.pub.wii
 title: Example Person API
 
 apis:
