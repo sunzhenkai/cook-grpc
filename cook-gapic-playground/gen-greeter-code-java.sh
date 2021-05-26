@@ -9,4 +9,4 @@ java -cp ../bin/gapic-generator-2.11.1-fatjar.jar \
     --gapic_yaml=../greeter-gapic-config.yaml \
     --package_yaml2=../greeter-meta-config.yaml \
     --language=java \
-    --o=.
+    --o=java-code-gen
