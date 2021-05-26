@@ -1,0 +1,7 @@
+artifact_type: GAPIC
+proto_deps:
+- google-common-protos
+api_name: greeter
+api_version: v1
+organization_name: solo-kingdom
+proto_path: wii/cook/gapic/greeter/v1

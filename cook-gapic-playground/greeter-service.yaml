@@ -1,0 +1,7 @@
+type: google.api.Service
+config_version: 3
+name: greeter-gapic.cook.pub.wii
+title: Example Library API
+
+apis:
+- name: wii.cook.gapic.greeter.v1.Greeter
