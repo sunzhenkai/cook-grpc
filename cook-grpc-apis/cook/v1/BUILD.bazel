@@ -32,16 +32,6 @@ java_gapic_library(
     ],
 )
 
-java_gapic_assembly_gradle_pkg(
-    name = "gapic-cook-v1-java",
-    deps = [
-        ":java_cook_gapic",
-        ":java_cook_grpc",
-        ":java_cook_proto",
-        ":cook_proto",
-    ],
-)
-
 proto_library(
     name = "cook_proto",
     srcs = ["cook.proto"],

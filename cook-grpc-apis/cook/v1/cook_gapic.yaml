@@ -1,6 +1,6 @@
 type: google.api.Service
 config_version: 3
-name: cook.grpc.cook.pub.wii
+name: wii.gapic.cook.v1
 title: Example Cook API
 
 apis:
