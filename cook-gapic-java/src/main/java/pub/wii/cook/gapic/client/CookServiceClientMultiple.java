@@ -1,9 +1,6 @@
 package pub.wii.cook.gapic.client;
 
-import io.grpc.Channel;
-import io.grpc.ManagedChannel;
-import io.grpc.ManagedChannelBuilder;
-import io.grpc.NameResolverRegistry;
+import io.grpc.*;
 import wii.pub.gapic.cook.v1.CookServiceGrpc;
 import wii.pub.gapic.cook.v1.PingRequest;
 
@@ -21,7 +18,9 @@ public class CookServiceClientMultiple {
 
     public static void main(String[] args) throws InterruptedException {
         NameResolverRegistry.getDefaultRegistry().register(new DynamicNameResolverProvider());
-        ManagedChannel channel = ManagedChannelBuilder.forTarget("server")
+        ManagedChannel channel = ManagedChannelBuilder
+                .forTarget("dynamic")
+                .defaultLoadBalancingPolicy("round_robin")
                 .usePlaintext()
                 .build();
 

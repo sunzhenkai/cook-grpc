@@ -23,7 +23,7 @@ public class CookServiceImplMultiple extends CookServiceGrpc.CookServiceImplBase
     @Override
     public void ping(wii.pub.gapic.cook.v1.PingRequest request, io.grpc.stub.StreamObserver<PingResponse> responseObserver) {
         System.out.println("received message on " + name + ": " + request.getMsg());
-        PingResponse response = PingResponse.newBuilder().setRes(request.getMsg() + ": pong").build();
+        PingResponse response = PingResponse.newBuilder().setRes(request.getMsg() + ": pong from " + name).build();
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }

@@ -4,8 +4,6 @@ import io.grpc.NameResolver;
 import io.grpc.NameResolverProvider;
 
 import java.net.URI;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 /**
  * TODO
@@ -27,11 +25,12 @@ public class DynamicNameResolverProvider extends NameResolverProvider {
 
     @Override
     public NameResolver newNameResolver(URI targetUri, NameResolver.Args args) {
+        System.out.println("URI: " + targetUri + ", args: " + args);
         return new DynamicNameResolver(targetUri.toString());
     }
 
     @Override
     public String getDefaultScheme() {
-        return "http";
+        return "zk";
     }
 }
