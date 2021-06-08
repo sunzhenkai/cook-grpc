@@ -1,7 +1,6 @@
 package pub.wii.cook.gapic.client;
 
 import com.google.common.collect.Lists;
-import io.grpc.Attributes;
 import io.grpc.EquivalentAddressGroup;
 import io.grpc.NameResolver;
 
@@ -61,7 +60,7 @@ public class DynamicNameResolver extends NameResolver {
                 .map(EquivalentAddressGroup::new)
                 .collect(Collectors.toList());
 
-        Collections.shuffle(eas);
+        Collections.shuffle(eas); // for test
         System.out.println("shuffle result: " + eas.get(0));
         ResolutionResult resolutionResult = ResolutionResult.newBuilder()
                 .setAddresses(Collections.singletonList(eas.get(0)))
