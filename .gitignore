@@ -2,3 +2,8 @@ bazel-*
 .idea
 target
 *.iml
+.project
+.settings
+build
+.classpath
+.factorypath
