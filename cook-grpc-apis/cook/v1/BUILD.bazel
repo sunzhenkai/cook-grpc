@@ -5,6 +5,8 @@ load(
     "java_gapic_library",
     "java_grpc_library",
     "java_proto_library",
+    "py_gapic_assembly_pkg",
+    "py_gapic_library",
 )
 
 #
@@ -29,6 +31,19 @@ java_gapic_library(
     grpc_service_config = "cook_gapic_service_config.json",
     deps = [
         ":java_cook_proto",
+    ],
+)
+
+py_gapic_library(
+    name = "python_cook_gapic",
+    srcs = [":cook_proto"],
+    grpc_service_config = "cook_gapic_service_config.json",
+)
+
+py_gapic_assembly_pkg(
+    name = "python_cook_gapic_pkg",
+    deps = [
+        ":python_cook_gapic",
     ],
 )
 

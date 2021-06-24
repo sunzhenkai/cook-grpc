@@ -2,23 +2,18 @@ workspace(
     name = "cook_grpc_apis",
 )
 
-## Prepare / Common
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
-## This is for stackb rules_proto
-# http_archive(
-#     name = "build_stack_rules_proto",
-#     urls = ["https://github.com/stackb/rules_proto/archive/b2913e6340bcbffb46793045ecac928dcf1b34a5.tar.gz"],
-#     sha256 = "d456a22a6a8d577499440e8408fc64396486291b570963f7b157f775be11823e",
-#     strip_prefix = "rules_proto-b2913e6340bcbffb46793045ecac928dcf1b34a5",
-# )
-
+##############################################################################
+# Common
+##############################################################################
 load("//:repository_rules.bzl", "switched_rules_by_language")
 switched_rules_by_language(
     name = "com_google_googleapis_imports",
     gapic = True,
     grpc = True,
     java = True,
+    python = True,
 )
 
 # Protobuf depends on very old version of bazel_skylib (forward compatible with the new one).
@@ -38,6 +33,7 @@ http_archive(
     url = "https://github.com/bazelbuild/rules_python/archive/0.1.0.tar.gz",
 )
 
+############## com_google_protobuf ##############
 http_archive(
     name = "com_google_protobuf",
     sha256 = "b10bf4e2d1a7586f54e64a5d9e7837e5188fc75ae69e36f215eb01def4f9721b",
@@ -48,6 +44,7 @@ http_archive(
 load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
 protobuf_deps()
 
+############## rules_proto ##############
 http_archive(
     name = "rules_proto",
     sha256 = "602e7161d9195e50246177e7c55b2f39950a9cf7366f74ed5f22fd45750cd208",
@@ -57,11 +54,11 @@ http_archive(
         "https://github.com/bazelbuild/rules_proto/archive/97d8af4dc474595af3900dd85cb3a29ad28cc313.tar.gz",
     ],
 )
-
 load("@rules_proto//proto:repositories.bzl", "rules_proto_dependencies", "rules_proto_toolchains")
 rules_proto_dependencies()
 rules_proto_toolchains()
 
+############## com_google_api_codegen ##############
 # Note gapic-generator contains java-specific and common code, that is why it is imported in common
 # section
 http_archive(
@@ -69,6 +66,41 @@ http_archive(
     strip_prefix = "gapic-generator-2.11.0",
     urls = ["https://github.com/googleapis/gapic-generator/archive/v2.11.0.zip"],
 )
+
+# google common apis
+http_archive(
+    name = "com_google_api_common_protos",
+    strip_prefix = "api-common-protos-1db64f2e971e7ea0e15769164a67643539f0994f",
+    urls = ["https://github.com/googleapis/api-common-protos/archive/1db64f2e971e7ea0e15769164a67643539f0994f.tar.gz"],
+)
+
+############## com_github_grpc_grpc ##############
+http_archive(
+    name = "com_github_grpc_grpc",
+    strip_prefix = "grpc-1.36.4",
+    urls = ["https://github.com/grpc/grpc/archive/v1.36.4.zip"],
+)
+
+load("@com_github_grpc_grpc//bazel:grpc_deps.bzl", "grpc_deps")
+grpc_deps()
+load("@com_github_grpc_grpc//bazel:grpc_extra_deps.bzl", "grpc_extra_deps")
+grpc_extra_deps()
+load("@build_bazel_rules_apple//apple:repositories.bzl", "apple_rules_dependencies")
+apple_rules_dependencies()
+load("@build_bazel_apple_support//lib:repositories.bzl", "apple_support_dependencies")
+apple_support_dependencies()
+
+############## rules_gapic ##############
+_rules_gapic_version = "0.5.5"
+
+http_archive(
+    name = "rules_gapic",
+    strip_prefix = "rules_gapic-%s" % _rules_gapic_version,
+    urls = ["https://github.com/googleapis/rules_gapic/archive/v%s.tar.gz" % _rules_gapic_version],
+)
+
+load("@rules_gapic//:repositories.bzl", "rules_gapic_repositories")
+rules_gapic_repositories()
 
 ##############################################################################
 # Java
