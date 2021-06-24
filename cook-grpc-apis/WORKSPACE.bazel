@@ -67,11 +67,19 @@ http_archive(
     urls = ["https://github.com/googleapis/gapic-generator/archive/v2.11.0.zip"],
 )
 
-# google common apis
+############## com_google_api_common_protos ##############
+# com_google_googleapis 包含了 common protos; 暂时保留
+# http_archive(
+#     name = "com_google_api_common_protos",
+#     strip_prefix = "api-common-protos-1db64f2e971e7ea0e15769164a67643539f0994f",
+#     urls = ["https://github.com/googleapis/api-common-protos/archive/1db64f2e971e7ea0e15769164a67643539f0994f.tar.gz"],
+# )
+
+############## com_google_googleapis ##############
 http_archive(
-    name = "com_google_api_common_protos",
-    strip_prefix = "api-common-protos-1db64f2e971e7ea0e15769164a67643539f0994f",
-    urls = ["https://github.com/googleapis/api-common-protos/archive/1db64f2e971e7ea0e15769164a67643539f0994f.tar.gz"],
+    name = "com_google_googleapis",
+    strip_prefix = "googleapis-8b976f7c6187f7f68956207b9a154bc278e11d7e",
+    urls = ["https://github.com/googleapis/googleapis/archive/8b976f7c6187f7f68956207b9a154bc278e11d7e.tar.gz"],
 )
 
 ############## com_github_grpc_grpc ##############
