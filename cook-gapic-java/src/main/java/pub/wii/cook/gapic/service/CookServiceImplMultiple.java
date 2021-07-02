@@ -2,13 +2,12 @@ package pub.wii.cook.gapic.service;
 
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
-import wii.pub.gapic.cook.v1.CookServiceGrpc;
-import wii.pub.gapic.cook.v1.PingResponse;
+import pub.wii.gapic.cook.v1.CookServiceGrpc;
+import pub.wii.gapic.cook.v1.PingResponse;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 public class CookServiceImplMultiple extends CookServiceGrpc.CookServiceImplBase {
     private static final int ns = 3;
@@ -21,7 +20,7 @@ public class CookServiceImplMultiple extends CookServiceGrpc.CookServiceImplBase
     }
 
     @Override
-    public void ping(wii.pub.gapic.cook.v1.PingRequest request, io.grpc.stub.StreamObserver<PingResponse> responseObserver) {
+    public void ping(pub.wii.gapic.cook.v1.PingRequest request, io.grpc.stub.StreamObserver<PingResponse> responseObserver) {
         System.out.println("received message on " + name + ": " + request.getMsg());
         PingResponse response = PingResponse.newBuilder().setRes(request.getMsg() + ": pong from " + name).build();
         responseObserver.onNext(response);

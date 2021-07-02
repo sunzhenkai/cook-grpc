@@ -1,8 +1,13 @@
 type: google.api.Service
 config_version: 3
-name: wii.gapic.cook.v1
+# 服务名称
+name: gapic.cook.wii.pub
 title: Example Cook API
 
 apis:
-- name: pub.wii.cook.grpc.cook.v1.CookService
+- name: wii.gapic.cook.v1.CookService
 
+authentication:
+  rules:
+  - selector: '*'
+    allow_without_credential: true

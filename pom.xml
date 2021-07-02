@@ -12,7 +12,8 @@
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-        <grpc.version>1.38.0</grpc.version>
+        <grpc.version>1.37.0</grpc.version>
+        <gax-grpc.version>1.66.0</gax-grpc.version>
         <spring.version>5.2.15.RELEASE</spring.version>
         <lombok.version>1.18.20</lombok.version>
         <apache-commons.version>3.12.0</apache-commons.version>
@@ -50,6 +51,11 @@
                 <groupId>io.grpc</groupId>
                 <artifactId>grpc-services</artifactId>
                 <version>${grpc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.api</groupId>
+                <artifactId>gax-grpc</artifactId>
+                <version>${gax-grpc.version}</version>
             </dependency>
 
             <!-- spring -->

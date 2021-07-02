@@ -1,10 +1,10 @@
 package pub.wii.cook.gapic.client;
 
 import io.grpc.*;
-import wii.pub.gapic.cook.v1.CookServiceClient;
-import wii.pub.gapic.cook.v1.CookServiceGrpc;
-import wii.pub.gapic.cook.v1.PingRequest;
-import wii.pub.gapic.cook.v1.stub.CookServiceStubSettings;
+import pub.wii.gapic.cook.v1.CookServiceClient;
+import pub.wii.gapic.cook.v1.CookServiceGrpc;
+import pub.wii.gapic.cook.v1.PingRequest;
+import pub.wii.gapic.cook.v1.stub.CookServiceStubSettings;
 
 import java.util.concurrent.TimeUnit;
 

@@ -1,8 +1,8 @@
 #!/bin/bash
 set -ex
 
-# bazel clean
-# bazel build //...
+bazel clean
+bazel build //...
 # bazel build //cook/v1:python_cook_gapic
 # bazel build //cook/v1:java_cook_grpc
 # bazel build //cook/v1:java_cook_gapic

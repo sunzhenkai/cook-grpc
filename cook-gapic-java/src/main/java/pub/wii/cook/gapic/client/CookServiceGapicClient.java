@@ -1,9 +1,9 @@
 package pub.wii.cook.gapic.client;
 
-import wii.pub.gapic.cook.v1.CookServiceClient;
-import wii.pub.gapic.cook.v1.CookServiceSettings;
-import wii.pub.gapic.cook.v1.PingRequest;
-import wii.pub.gapic.cook.v1.PingResponse;
+import pub.wii.gapic.cook.v1.CookServiceClient;
+import pub.wii.gapic.cook.v1.CookServiceSettings;
+import pub.wii.gapic.cook.v1.PingRequest;
+import pub.wii.gapic.cook.v1.PingResponse;
 
 public class CookServiceGapicClient {
     public static void main(String[] args) throws Exception {
