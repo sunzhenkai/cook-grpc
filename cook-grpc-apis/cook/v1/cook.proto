@@ -1,14 +1,14 @@
 syntax = "proto3";
 
-package wii.gapic.cook.v1;
+package wii.cook.v1;
 
 import "google/api/client.proto";
 
 option java_multiple_files=true;
-option java_package="pub.wii.gapic.cook.v1";
+option java_package="pub.wii.cook.v1";
 
 service CookService {
-    option (google.api.default_host) = "cook.gapic.pub.wii";
+    option (google.api.default_host) = "cook.wii.pub";
     rpc Ping(PingRequest) returns (PingResponse) {}
 }
 

@@ -11,6 +11,9 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="libjava_cook_grpc" level="project" />
+    <orderEntry type="library" name="libjava_cook_gapic" level="project" />
+    <orderEntry type="library" name="libcook_proto-speed" level="project" />
     <orderEntry type="library" name="Maven: io.grpc:grpc-protobuf:1.37.0" level="project" />
     <orderEntry type="library" name="Maven: io.grpc:grpc-api:1.37.0" level="project" />
     <orderEntry type="library" name="Maven: io.grpc:grpc-context:1.37.0" level="project" />
@@ -31,10 +34,7 @@
     <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.8.6" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: com.google.android:annotations:4.1.1.4" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: io.perfmark:perfmark-api:0.23.0" level="project" />
-    <orderEntry type="library" name="Maven: com.google.api:gax-grpc:1.66.0" level="project" />
     <orderEntry type="library" name="Maven: com.google.api:gax:1.66.0" level="project" />
-    <orderEntry type="library" name="Maven: io.opencensus:opencensus-api:0.28.0" level="project" />
-    <orderEntry type="library" name="Maven: io.grpc:grpc-auth:1.37.0" level="project" />
     <orderEntry type="library" name="Maven: org.threeten:threetenbp:1.5.0" level="project" />
     <orderEntry type="library" name="Maven: com.google.auth:google-auth-library-oauth2-http:0.24.0" level="project" />
     <orderEntry type="library" name="Maven: com.google.auto.value:auto-value-annotations:1.7.4" level="project" />
@@ -45,16 +45,16 @@
     <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpcore:4.4.14" level="project" />
     <orderEntry type="library" name="Maven: io.opencensus:opencensus-contrib-http-util:0.24.0" level="project" />
     <orderEntry type="library" name="Maven: com.google.http-client:google-http-client-gson:1.38.1" level="project" />
-    <orderEntry type="library" name="Maven: com.google.auth:google-auth-library-credentials:0.24.0" level="project" />
     <orderEntry type="library" name="Maven: com.google.api:api-common:1.10.1" level="project" />
     <orderEntry type="library" name="Maven: javax.annotation:javax.annotation-api:1.3.2" level="project" />
+    <orderEntry type="library" name="Maven: io.opencensus:opencensus-api:0.28.0" level="project" />
+    <orderEntry type="library" name="Maven: com.google.api:gax-grpc:1.66.0" level="project" />
+    <orderEntry type="library" name="Maven: io.grpc:grpc-auth:1.37.0" level="project" />
+    <orderEntry type="library" name="Maven: com.google.auth:google-auth-library-credentials:0.24.0" level="project" />
     <orderEntry type="library" name="Maven: io.grpc:grpc-alts:1.37.0" level="project" />
     <orderEntry type="library" name="Maven: io.grpc:grpc-grpclb:1.37.0" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: com.google.protobuf:protobuf-java-util:3.12.0" level="project" />
     <orderEntry type="library" name="Maven: org.conscrypt:conscrypt-openjdk-uber:2.5.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.projectlombok:lombok:1.18.20" level="project" />
-    <orderEntry type="library" name="libjava_cook_grpc" level="project" />
-    <orderEntry type="library" name="libjava_cook_gapic" level="project" />
-    <orderEntry type="library" name="libcook_proto-speed" level="project" />
   </component>
 </module>

@@ -18,7 +18,19 @@ public class CookServiceImpl extends CookServiceGrpc.CookServiceImplBase {
         System.out.println("received message: " + request.getMsg());
         PingResponse response = PingResponse.newBuilder().setRes(request.getMsg() + ": pong").build();
 
-        Thread.sleep(1000 * 100);
+        long i = 0;
+        double k = 0;
+        for (i = 0; i < 10000 * 10000L; ) {
+            // do something
+            Thread.sleep(10);
+            for (int j = 0; j < 1000000;) {
+                ++j;
+                k = i * j;
+            }
+            ++i;
+        }
+        System.out.println(i);
+        System.out.println(k);
 
         responseObserver.onNext(response);
         responseObserver.onCompleted();

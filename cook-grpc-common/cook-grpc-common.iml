@@ -11,6 +11,9 @@
     </content>
     <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="libjava_cook_grpc" level="project" />
+    <orderEntry type="library" name="libjava_cook_gapic" level="project" />
+    <orderEntry type="library" name="libcook_proto-speed" level="project" />
     <orderEntry type="library" name="Maven: io.grpc:grpc-protobuf:1.37.0" level="project" />
     <orderEntry type="library" name="Maven: io.grpc:grpc-api:1.37.0" level="project" />
     <orderEntry type="library" name="Maven: io.grpc:grpc-context:1.37.0" level="project" />
@@ -56,8 +59,5 @@
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.10.0" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.10.0" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.10.0" level="project" />
-    <orderEntry type="library" name="libjava_cook_grpc" level="project" />
-    <orderEntry type="library" name="libjava_cook_gapic" level="project" />
-    <orderEntry type="library" name="libcook_proto-speed" level="project" />
   </component>
 </module>

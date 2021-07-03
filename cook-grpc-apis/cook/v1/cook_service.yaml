@@ -1,0 +1,18 @@
+type: google.api.Service
+config_version: 3
+# 服务名称
+name: cook.wii.pub
+title: Example Cook API
+
+apis:
+- name: wii.cook.v1.CookService
+
+backend:
+  rules:
+  - selector: 'wii.cook.v1.CookService'
+    deadline: 5.0
+
+authentication:
+  rules:
+  - selector: 'wii.cook.v1.CookService'
+    allow_without_credential: true

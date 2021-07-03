@@ -42,11 +42,11 @@ protobuf_deps()
 # rules proto
 http_archive(
     name = "rules_proto",
-    sha256 = "602e7161d9195e50246177e7c55b2f39950a9cf7366f74ed5f22fd45750cd208",
-    strip_prefix = "rules_proto-97d8af4dc474595af3900dd85cb3a29ad28cc313",
+    # sha256 = "602e7161d9195e50246177e7c55b2f39950a9cf7366f74ed5f22fd45750cd208",
+    strip_prefix = "rules_proto-af6481970a34554c6942d993e194a9aed7987780",
     urls = [
-        "https://mirror.bazel.build/github.com/bazelbuild/rules_proto/archive/97d8af4dc474595af3900dd85cb3a29ad28cc313.tar.gz",
-        "https://github.com/bazelbuild/rules_proto/archive/97d8af4dc474595af3900dd85cb3a29ad28cc313.tar.gz",
+        "https://mirror.bazel.build/github.com/bazelbuild/rules_proto/archive/af6481970a34554c6942d993e194a9aed7987780.tar.gz",
+        "https://github.com/bazelbuild/rules_proto/archive/af6481970a34554c6942d993e194a9aed7987780.tar.gz",
     ],
 )
 load("@rules_proto//proto:repositories.bzl", "rules_proto_dependencies", "rules_proto_toolchains")
@@ -218,47 +218,3 @@ load(
 )
 gapic_generator_python()
 gapic_generator_register_toolchains()
-
-
-###### Texts below is for stack rules
-## C++
-# load("@build_stack_rules_proto//cpp:deps.bzl", "cpp_proto_library")
-# cpp_proto_library()
-
-## Java
-# load("@build_stack_rules_proto//:deps.bzl", "io_grpc_grpc_java")
-# io_grpc_grpc_java()
-
-# load("@io_grpc_grpc_java//:repositories.bzl", "grpc_java_repositories")
-# grpc_java_repositories(omit_com_google_protobuf = True)
-
-# load("@build_stack_rules_proto//java:deps.bzl", "java_grpc_library")
-# java_grpc_library()
-
-## Python
-# load("@build_stack_rules_proto//python:deps.bzl", "python_proto_library")
-# load("@build_stack_rules_proto//python:deps.bzl", "python_grpc_library")
-# python_proto_library()
-# python_grpc_library()
-
-# load("@com_github_grpc_grpc//bazel:grpc_deps.bzl", "grpc_deps")
-# grpc_deps()
-
-# load("@io_bazel_rules_python//python:pip.bzl", "pip_import", "pip_repositories")
-# pip_repositories()
-
-# pip_import(
-#     name = "protobuf_py_deps",
-#     requirements = "@build_stack_rules_proto//python/requirements:protobuf.txt",
-# )
-
-# load("@protobuf_py_deps//:requirements.bzl", protobuf_pip_install = "pip_install")
-# protobuf_pip_install()
-
-# pip_import(
-#     name = "grpc_py_deps",
-#     requirements = "@build_stack_rules_proto//python:requirements.txt",
-# )
-
-# load("@grpc_py_deps//:requirements.bzl", grpc_pip_install = "pip_install")
-# grpc_pip_install()

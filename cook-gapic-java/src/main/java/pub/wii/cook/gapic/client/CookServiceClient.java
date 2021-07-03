@@ -6,12 +6,14 @@ import io.grpc.ManagedChannelBuilder;
 import pub.wii.gapic.cook.v1.CookServiceGrpc;
 import pub.wii.gapic.cook.v1.PingRequest;
 
+import java.util.concurrent.TimeUnit;
+
 public class CookServiceClient {
 
     private final CookServiceGrpc.CookServiceBlockingStub bs;
 
     public CookServiceClient(Channel channel) {
-        this.bs = CookServiceGrpc.newBlockingStub(channel);
+        this.bs = CookServiceGrpc.newBlockingStub(channel).withDeadlineAfter(1, TimeUnit.SECONDS);
     }
 
     public String ping() {
