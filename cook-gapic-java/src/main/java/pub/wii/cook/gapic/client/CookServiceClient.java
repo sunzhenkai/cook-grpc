@@ -3,8 +3,8 @@ package pub.wii.cook.gapic.client;
 import io.grpc.Channel;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
-import pub.wii.gapic.cook.v1.CookServiceGrpc;
-import pub.wii.gapic.cook.v1.PingRequest;
+import pub.wii.cook.v1.CookServiceGrpc;
+import pub.wii.cook.v1.PingRequest;
 
 import java.util.concurrent.TimeUnit;
 

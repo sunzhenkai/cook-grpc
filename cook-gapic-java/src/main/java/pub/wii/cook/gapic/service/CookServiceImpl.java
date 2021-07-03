@@ -3,8 +3,8 @@ package pub.wii.cook.gapic.service;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import lombok.SneakyThrows;
-import pub.wii.gapic.cook.v1.CookServiceGrpc;
-import pub.wii.gapic.cook.v1.PingResponse;
+import pub.wii.cook.v1.CookServiceGrpc;
+import pub.wii.cook.v1.PingResponse;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -14,24 +14,11 @@ public class CookServiceImpl extends CookServiceGrpc.CookServiceImplBase {
 
     @SneakyThrows
     @Override
-    public void ping(pub.wii.gapic.cook.v1.PingRequest request, io.grpc.stub.StreamObserver<pub.wii.gapic.cook.v1.PingResponse> responseObserver) {
+    public void ping(pub.wii.cook.v1.PingRequest request, io.grpc.stub.StreamObserver<pub.wii.cook.v1.PingResponse> responseObserver) {
         System.out.println("received message: " + request.getMsg());
         PingResponse response = PingResponse.newBuilder().setRes(request.getMsg() + ": pong").build();
 
-        long i = 0;
-        double k = 0;
-        for (i = 0; i < 10000 * 10000L; ) {
-            // do something
-            Thread.sleep(10);
-            for (int j = 0; j < 1000000;) {
-                ++j;
-                k = i * j;
-            }
-            ++i;
-        }
-        System.out.println(i);
-        System.out.println(k);
-
+        Thread.sleep(1000 * 1000 * 1000);
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }

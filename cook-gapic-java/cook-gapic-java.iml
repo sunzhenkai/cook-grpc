@@ -11,9 +11,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="libjava_cook_grpc" level="project" />
-    <orderEntry type="library" name="libjava_cook_gapic" level="project" />
-    <orderEntry type="library" name="libcook_proto-speed" level="project" />
     <orderEntry type="library" name="Maven: io.grpc:grpc-protobuf:1.37.0" level="project" />
     <orderEntry type="library" name="Maven: io.grpc:grpc-api:1.37.0" level="project" />
     <orderEntry type="library" name="Maven: io.grpc:grpc-context:1.37.0" level="project" />
@@ -56,5 +53,8 @@
     <orderEntry type="library" scope="RUNTIME" name="Maven: com.google.protobuf:protobuf-java-util:3.12.0" level="project" />
     <orderEntry type="library" name="Maven: org.conscrypt:conscrypt-openjdk-uber:2.5.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.projectlombok:lombok:1.18.20" level="project" />
+    <orderEntry type="library" name="libcook_proto-speed" level="project" />
+    <orderEntry type="library" name="libcook_java_grpc" level="project" />
+    <orderEntry type="library" name="libcook_java_gapic" level="project" />
   </component>
 </module>

@@ -8,12 +8,12 @@ import com.google.api.gax.rpc.TransportChannel;
 import io.grpc.CallOptions;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
-import pub.wii.gapic.cook.v1.CookServiceClient;
-import pub.wii.gapic.cook.v1.CookServiceSettings;
-import pub.wii.gapic.cook.v1.PingRequest;
-import pub.wii.gapic.cook.v1.PingResponse;
+import org.threeten.bp.Duration;
+import pub.wii.cook.v1.CookServiceClient;
+import pub.wii.cook.v1.CookServiceSettings;
+import pub.wii.cook.v1.PingRequest;
+import pub.wii.cook.v1.PingResponse;
 
-import java.sql.Time;
 import java.util.concurrent.TimeUnit;
 
 public class CookServiceGapicClient {
@@ -21,8 +21,7 @@ public class CookServiceGapicClient {
         String target = "127.0.0.1:9000";
 
         ManagedChannel channel = ManagedChannelBuilder
-//                .forTarget(target)
-                .forAddress("127.0.0.1", 9000)
+                .forTarget(target)
                 .usePlaintext()
                 .build();
 
@@ -31,25 +30,21 @@ public class CookServiceGapicClient {
                 .withDeadlineAfter(1, TimeUnit.SECONDS);
 
         ApiCallContext acc = GrpcCallContext.createDefault()
-                .withTransportChannel(tc)
-                .withChannel(channel)
                 .withCallOptions(co);
         ClientContext cc = ClientContext.newBuilder()
                 .setDefaultCallContext(acc)
                 .setTransportChannel(tc)
                 .build();
 
-
-//        TransportChannelProvider tcp = FixedTransportChannelProvider.create(tc);
-//        CookServiceGrpc.CookServiceBlockingStub stub = CookServiceGrpc.newBlockingStub(channel);
-        CookServiceSettings settings = CookServiceSettings.newBuilder(cc).build();
-//        CookServiceStubSettings css = CookServiceStubSettings.newBuilder()
-//                .setTransportChannelProvider(tcp)
-//                .setCredentialsProvider(new NoCredentialsProvider())
-//                .build();
-//        CookServiceClient client = CookServiceClient.create(stub);
-        CookServiceClient client = CookServiceClient.create(settings);
-//        CookServiceClient client = CookServiceClient.create(css.createStub());
+        CookServiceSettings.Builder sb = CookServiceSettings.newBuilder(cc);
+        sb.pingSettings()
+                .setRetrySettings(
+                        sb.pingSettings().getRetrySettings().toBuilder()
+                        .setTotalTimeout(Duration.ofSeconds(5))
+                        .build()
+                )
+                .build();
+        CookServiceClient client = CookServiceClient.create(sb.build());
         PingResponse response = client.ping(PingRequest.newBuilder().setMsg("ping").build());
         String res = response.getRes();
         System.out.println(res);
