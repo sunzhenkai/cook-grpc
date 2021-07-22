@@ -5,12 +5,11 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 ##############################################################################
 # Common
 ##############################################################################
-# We need some proto definitions and swaitched_rules_by_language
-# from googleapis.
+# We need some proto definitions and swaitched_rules_by_language from googleapis.
 http_archive(
     name = "com_google_googleapis",
-    strip_prefix = "googleapis-8b976f7c6187f7f68956207b9a154bc278e11d7e",
-    urls = ["https://github.com/googleapis/googleapis/archive/8b976f7c6187f7f68956207b9a154bc278e11d7e.tar.gz"],
+    strip_prefix = "googleapis-3859723d77717f5082e78b4b0565c6d08b3eedfe",
+    urls = ["https://github.com/googleapis/googleapis/archive/3859723d77717f5082e78b4b0565c6d08b3eedfe.tar.gz"],
 )
 load("@com_google_googleapis//:repository_rules.bzl", "switched_rules_by_language")
 switched_rules_by_language(
@@ -119,7 +118,7 @@ rules_jvm_external_setup()
 ##############################################################################
 # Java
 ##############################################################################
-_gax_java_version = "1.63.3"
+_gax_java_version = "1.65.1"
 
 http_archive(
     name = "com_google_api_gax_java",
@@ -127,6 +126,7 @@ http_archive(
     urls = ["https://github.com/googleapis/gax-java/archive/v%s.zip" % _gax_java_version],
 )
 load("@com_google_api_gax_java//:repository_rules.bzl", "com_google_api_gax_java_properties")
+
 com_google_api_gax_java_properties(
     name = "com_google_api_gax_java_properties",
     file = "@com_google_api_gax_java//:dependencies.properties",
@@ -138,48 +138,20 @@ grpc_java_repositories()
 
 # Java microgenerator.
 # Must go AFTER java-gax, since both java gax and gapic-generator are written in java and may conflict.
-_gapic_generator_java_version = "1.0.7"
+_gapic_generator_java_version = "1.0.16"
 
 http_archive(
     name = "gapic_generator_java",
     strip_prefix = "gapic-generator-java-%s" % _gapic_generator_java_version,
     urls = ["https://github.com/googleapis/gapic-generator-java/archive/v%s.zip" % _gapic_generator_java_version],
 )
-
 load("@gapic_generator_java//:repository_rules.bzl", "gapic_generator_java_properties")
 gapic_generator_java_properties(
     name = "gapic_generator_java_properties",
     file = "@gapic_generator_java//:dependencies.properties",
 )
-
 load("@gapic_generator_java//:repositories.bzl", "gapic_generator_java_repositories")
 gapic_generator_java_repositories()
-
-# gapic-generator transitive
-# (goes AFTER java-gax, since both java gax and gapic-generator are written in java and may conflict)
-load("@com_google_api_codegen//:repository_rules.bzl", "com_google_api_codegen_properties")
-
-com_google_api_codegen_properties(
-    name = "com_google_api_codegen_properties",
-    file = "@com_google_api_codegen//:dependencies.properties",
-)
-
-load("@com_google_api_codegen//:repositories.bzl", "com_google_api_codegen_repositories")
-
-http_archive(
-    name = "com_google_protoc_java_resource_names_plugin",
-    strip_prefix = "protoc-java-resource-names-plugin-8d749cb5b7aa2734656e1ad36ceda92894f33153",
-    urls = ["https://github.com/googleapis/protoc-java-resource-names-plugin/archive/8d749cb5b7aa2734656e1ad36ceda92894f33153.zip"],
-)
-com_google_api_codegen_repositories()
-
-# protoc-java-resource-names-plugin (loaded in com_google_api_codegen_repositories())
-# (required to support resource names feature in gapic generator)
-load(
-    "@com_google_protoc_java_resource_names_plugin//:repositories.bzl",
-    "com_google_protoc_java_resource_names_plugin_repositories",
-)
-com_google_protoc_java_resource_names_plugin_repositories()
 
 
 ##############################################################################
